@@ -183,6 +183,57 @@ void q_reverse(queue_t *q)
     return;
 }
 
+void swap_value(list_ele_t *a, list_ele_t *b)
+{
+    char *tmp = a->value;
+    a->value = b->value;
+    b->value = tmp;
+    return;
+}
+
+void quick_sort(list_ele_t *head, list_ele_t *tail, int size)
+{
+    if (head == NULL || tail == NULL)
+        return;
+    if (size <= 2)
+        return;
+
+    // Get middle node
+    list_ele_t *mid = head;
+    for (int i = 0; i < size / 2; ++i) {
+        mid = mid->next;
+    }
+
+    // Get median of three, and set pivot to tail
+    if (strcasecmp(head->value, mid->value) > 0 &&
+        strcasecmp(tail->value, mid->value) > 0) {
+        mid = strcasecmp(head->value, tail->value) > 0 ? tail : head;
+    } else if (strcasecmp(mid->value, head->value) > 0 &&
+               strcasecmp(mid->value, tail->value) > 0) {
+        mid = strcasecmp(head->value, tail->value) > 0 ? head : tail;
+    }
+    swap_value(mid, tail);
+
+    // Partition
+    int count = 0;
+    list_ele_t *process = head;
+    list_ele_t *cursor = head;
+    list_ele_t *front = NULL;
+    while (process != tail) {
+        if (strcasecmp(tail->value, process->value) >= 0) {
+            swap_value(process, cursor);
+            front = cursor;
+            cursor = cursor->next;
+            count++;
+        }
+        process = process->next;
+    }
+    swap_value(cursor, tail);
+
+    quick_sort(head, front, count);
+    quick_sort(cursor->next, tail, size - count - 1);
+}
+
 /*
  * Sort elements of queue in ascending order
  * No effect if q is NULL or empty. In addition, if q has only one
@@ -190,6 +241,8 @@ void q_reverse(queue_t *q)
  */
 void q_sort(queue_t *q)
 {
-    /* TODO: You need to write the code for this function */
-    /* TODO: Remove the above comment when you are about to implement. */
+    if (q == NULL || q->size == 0 || q->size == 1)
+        return;
+    quick_sort(q->head, q->tail, q->size);
+    return;
 }
