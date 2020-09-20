@@ -14,7 +14,7 @@ queue_t *q_new()
 {
     queue_t *q = malloc(sizeof(queue_t));
 
-    if (!q) {
+    if (q == NULL) {
         return NULL;
     }
     q->head = NULL;
@@ -40,25 +40,25 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
-    if (!q) {
+    if (q == NULL) {
         return false;
     }
     list_ele_t *newh = malloc(sizeof(list_ele_t));
 
-    if (!newh) {
+    if (newh == NULL) {
         return false;
     }
     int len = strlen(s);
     newh->value = malloc((len + 1) * sizeof(char));
 
-    if (!newh->value) {
+    if (newh->value == NULL) {
         free(newh);
         return false;
     }
     strncpy(newh->value, s, len + 1);
     newh->next = q->head;
     q->head = newh;
-    if (!q->size) {
+    if (q->size == 0) {
         q->tail = newh;
     }
     q->size++;
@@ -74,24 +74,24 @@ bool q_insert_head(queue_t *q, char *s)
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
-    if (!q) {
+    if (q == NULL) {
         return false;
     }
     list_ele_t *newh = malloc(sizeof(list_ele_t));
 
-    if (!newh) {
+    if (newh == NULL) {
         return false;
     }
     int len = strlen(s);
     newh->value = malloc((len + 1) * sizeof(char));
 
-    if (!newh->value) {
+    if (newh->value == NULL) {
         free(newh);
         return false;
     }
     strncpy(newh->value, s, len + 1);
     newh->next = NULL;
-    if (!q->size) {
+    if (q->size == 0) {
         q->head = newh;
     } else {
         q->tail->next = newh;
