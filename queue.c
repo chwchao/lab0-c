@@ -119,7 +119,6 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
     }
     if (sp) {
         int src_len = strlen(q->head->value);
-        bufsize = (strlen(sp) + 1 >= bufsize) ? bufsize : (strlen(sp) + 1);
         if (src_len >= bufsize) {
             strncpy(sp, q->head->value, bufsize - 1);
             sp[bufsize - 1] = '\0';
@@ -129,8 +128,13 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
         }
     }
     list_ele_t *next = q->head->next;
+    free(q->head->value);
     free(q->head);
     q->head = next;
+    q->size--;
+    if (q->size == 0) {
+        q->tail = NULL;
+    }
     return true;
 }
 
