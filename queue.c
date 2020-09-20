@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +13,7 @@
 queue_t *q_new()
 {
     queue_t *q = malloc(sizeof(queue_t));
-    /* TODO: What if malloc returned NULL? */
+    assert(q);
     q->head = NULL;
     return q;
 }
@@ -80,7 +81,7 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
  * Return 0 if q is NULL or empty
  */
 int q_size(queue_t *q)
-{ 
+{
     return q->size;
 }
 
