@@ -197,7 +197,7 @@ void quick_sort(list_ele_t *head, list_ele_t *tail, int size)
 {
     if (head == NULL || tail == NULL)
         return;
-    if (size <= 2)
+    if (size <= 1)
         return;
 
     // Get middle node
@@ -222,7 +222,7 @@ void quick_sort(list_ele_t *head, list_ele_t *tail, int size)
     list_ele_t *cursor = head;
     list_ele_t *front = NULL;
     while (process != tail) {
-        if (strcasecmp(tail->value, process->value) >= 0) {
+        if (strcasecmp(tail->value, process->value) > 0) {
             swap_value(process, cursor);
             front = cursor;
             cursor = cursor->next;
